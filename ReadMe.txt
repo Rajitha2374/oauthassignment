@@ -11,9 +11,8 @@ You have to install nodeJS and relevant dependencies.
 
 Installing
 
-1.  Download the repository to your local machine.
-2.  Open the terminal inside the downloaded folder.
-3.  To start the server, run the following command in the terminal.
+1. Clone the repository to your machine and open the terminal in that folder.
+2. Run the following command in the terminal to run the app.
         node app.js
-4.  Open the browser and go to http://localhost:4000
-5.  Click on the login button and it will redirect you to welcome page
+3. Open the browser and go to http://localhost:4000
+4. Click on the login button and it will redirect you to welcome page
