@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+    <link href="https://bootswatch.com/3/slate/bootstrap.css" rel="stylesheet" >
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Authentication</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Authentication</a>
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+          </div>
+        </div>
+      </nav>
+      <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mainbox">
+                     <h2 id="hi"></h2>     
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+                <div class="box alert-warning" id="repositoriesCount" style="background-color: #e6e6e6; width: 600px; color: black; font-size: 18px; font-weight: bold"></div>
+        </div>
+        <div class="col-lg-12">
+        <h3>Repositories :</h3>
+        </div>
+        <div id="Repositories">
+        </div>
+      </div>
+      
+</body>
+
+<script>
+
+	const code = window.location.search.substring(1)
+  const token = code.split('access_token=')[1]
+  //split the code to get the access token
+    hi = document.getElementById("hi")
+    repositoriesCount = document.getElementById("repositoriesCount")
+
+    fetch('https://api.github.com/user', {
+			headers: {
+				// Append the access token in the header
+				Authorization: 'token ' + token
+			}
+		})
+		.then(res => res.json())
+		.then(res => {
+			var nameitem = document.createTextNode(`Hi , ${res.login} !`)
+            hi.appendChild(nameitem)
+            console.log(res.login)
+            
+    })
+
+    
+
+    fetch('https://api.github.com/user/repos', {
+			headers: {
+  //split the code to get the access token
+				Authorization: 'token ' + token
+			}
+		})
+		.then(res => res.json())
+		.then(res => {
+            Count = 0
+
+            Object.keys(res).forEach(function(key){
+                Count+=1
+                var node = document.createElement('div');
+                var br1 = document.createElement('br');
+                var br2 = document.createElement('br');
+                var br3 = document.createElement('br');
+                node.setAttribute("class", "panel panel-success col-lg-5 repos h4")
+                var textNode = document.createTextNode(`Name: ${res[key].name}`)
+                var sizeNode = document.createTextNode(`Total Size (KB): ${res[key].size}`)
+                var created_date = document.createTextNode(`Created at: ${res[key].updated_at}`)
+                var pushed_date = document.createTextNode(`Pushed at: ${res[key].pushed_at}`)
+                node.appendChild(textNode)
+                node.appendChild(br1)
+                node.appendChild(sizeNode)
+                node.appendChild(br2)
+                node.appendChild(created_date)
+                node.appendChild(br3)
+                node.appendChild(pushed_date)
+
+                document.getElementById("Repositories").appendChild(node)
+            })
+            var repoitem = document.createTextNode(`Total Repositories: ${Count}`)
+            repositoriesCount.appendChild(repoitem)
+    })
+
+    
+	// Call the user info API using the fetch browser library
+
+</script>
+
+</html>
